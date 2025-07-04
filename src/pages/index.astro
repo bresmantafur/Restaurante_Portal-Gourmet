@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<Layout title="Inicio - El Portal Gourmet">
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a el Portal Gourmet</h1>
+            <p>Sabores únicos y alta cocina en un ambiente elegante y acogedor.</p>
+            <button onclick="location.href='/menu'">Explora Nuestro Menú</button>
+        </div>
+    </section>
+
+    <section class="promesa">
+        <div class="promesa-content">
+            <h2>Nuestra Promesa</h2>
+            <p>Calidad, frescura y un servicio excepcional, garantizando una experiencia culinaria inolvidable.</p>
+            <img src="/cubiertos1.png" alt="Cubiertos decorativos" class="cubiertos-decorativos">
+        </div>
+    </section>
+
+    <section class="destacada">
+        <div class="destacada-texto">
+            <h2>Pasión por la Gastronomía</h2>
+            <p>Cada plato que servimos refleja nuestro compromiso con la excelencia y los sabores auténticos.</p>
+            <button onclick="location.href='/galeria'">Descubre la Galería</button>
+        </div>
+        <div class="destacada-imagen">
+            <img src="/cubiertos2.png" alt="Cubiertos decorativos">
+        </div>
+    </section>
+
+    <section class="video-seccion">
+        <h2>Conoce Nuestro Restaurante</h2>
+        <video src="/video.mp4" autoplay muted loop controls class="video-restaurante"></video>
+    </section>
+
+</Layout>

@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Acceso Administrador">
+    <h2>Acceso Administrador</h2>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Usuario" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <script is:inline>
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+                const username = usernameInput && usernameInput instanceof HTMLInputElement ? usernameInput.value : '';
+                const password = passwordInput && passwordInput instanceof HTMLInputElement ? passwordInput.value : '';
+
+                const res = await fetch('http://localhost:3001/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                if (res.ok) window.location.href = '/admin';
+                else alert('Credenciales incorrectas');
+            });
+        }
+    </script>
+</Layout>

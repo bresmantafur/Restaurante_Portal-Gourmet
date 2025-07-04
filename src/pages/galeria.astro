@@ -1,0 +1,74 @@
+--- 
+import Layout from "../layouts/Layout.astro"; 
+
+--- 
+
+<Layout title="Galería - El Portal Gourmet">
+    <section class="section">
+        <h2>Galería de Platos</h2>
+        <div class="galeria">
+            <div class="plato" onclick="abrirModal(1)">
+                <img src="/sancocho.jpg" alt="Plato 1" />
+                <p>Sancocho de gallina</p>
+            </div>
+            <div class="plato" onclick="abrirModal(2)">
+                <img src="/albondigas.jpg" alt="Plato 2" />
+                <p>albondigas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <h3 id="modal-titulo">Detalles del Plato</h3>
+            <div id="modal-imagenes" class="modal-imagenes">
+                <!-- Aquí se cargan las imágenes según el plato -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Extiende la interfaz Window para TypeScript
+        declare global {
+            interface Window {
+                abrirModal: (platoId: number) => void;
+                cerrarModal: () => void;
+            }
+        }
+
+        const imagenesPlato = {
+            1: ["/sancocho1.jpg", "/sancocho2.jpg", "/sancocho3.jpg"],
+            2: ["/albondigas1.jpg", "/albondigas2.jpg", "/albondigas3.jpg"]
+        };
+
+        // Hacer que las funciones estén disponibles globalmente para los controladores inline
+        window.abrirModal = function (platoId: number) {
+            const modal = document.getElementById("modal");
+            const contenedor = document.getElementById("modal-imagenes");
+            if (!modal || !contenedor) return;
+            contenedor.innerHTML = "";
+            const imagenes = imagenesPlato[platoId as keyof typeof imagenesPlato];
+            if (imagenes && Array.isArray(imagenes)) {
+                imagenes.forEach((img: string) => {
+                    const imagen = document.createElement("img");
+                    imagen.src = img;
+                    contenedor.appendChild(imagen);
+                });
+            }
+            const titulo = document.getElementById("modal-titulo");
+            if (titulo) {
+                titulo.innerText = "Detalles del Plato " + platoId;
+            }
+            modal.style.display = "flex";
+        };
+
+        window.cerrarModal = function () {
+            const modal = document.getElementById("modal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
+</Layout>

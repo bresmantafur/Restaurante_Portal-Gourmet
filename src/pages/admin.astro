@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Panel de Administración">
+    <h2>Panel de Administración</h2>
+
+    <h3>Subir Imagen a Galería</h3>
+    <form id="uploadForm">
+        <input type="file" id="imagen" required />
+        <button type="submit">Subir Imagen</button>
+    </form>
+
+    <h3>Agregar Plato al Menú</h3>
+    <form id="menuForm">
+        <input type="text" id="nombre" placeholder="Nombre del Plato" required />
+        <input type="text" id="descripcion" placeholder="Descripción" required />
+        <button type="submit">Agregar al Menú</button>
+    </form>
+
+    <script>
+        // Subir Imagen
+        const uploadForm = document.getElementById('uploadForm');
+        if (uploadForm) {
+            uploadForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const imagenInput = document.getElementById('imagen') as HTMLInputElement | null;
+                if (!imagenInput || !imagenInput.files || imagenInput.files.length === 0) {
+                    alert('Por favor selecciona una imagen');
+                    return;
+                }
+                const formData = new FormData();
+                formData.append('imagen', imagenInput.files[0]);
+
+                const res = await fetch('http://localhost:3001/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (res.ok) alert('Imagen subida correctamente');
+                else alert('Error al subir imagen');
+            });
+        }
+
+        // Agregar Plato
+        const menuForm = document.getElementById('menuForm');
+        if (menuForm) {
+            menuForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nombreInput = document.getElementById('nombre') as HTMLInputElement | null;
+                const descripcionInput = document.getElementById('descripcion') as HTMLInputElement | null;
+                if (!nombreInput || !descripcionInput) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+                const nombre = nombreInput.value;
+                const descripcion = descripcionInput.value;
+
+                const res = await fetch('http://localhost:3001/menu', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, descripcion })
+                });
+                if (res.ok) alert('Plato agregado al menú');
+                else alert('Error al agregar plato');
+            });
+        }
+    </script>
+</Layout>
